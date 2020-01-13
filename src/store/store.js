@@ -6,6 +6,7 @@ import createRootReducer from '../reducers/root';
 
 const configureStore = () => {
   const store = createStore(
+    createRootReducer(),
     composeWithDevTools(
       applyMiddleware(
         thunk,
