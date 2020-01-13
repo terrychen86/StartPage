@@ -16,5 +16,8 @@
     "static/css/*",
     "static/js/*",
     "static/media/*"
-  ]
+  ],
+  "background": { 
+    "scripts": ["hot-reload.js"]
+  }
 }
