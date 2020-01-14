@@ -17,11 +17,22 @@
     "build": "yarn lint:css && react-scripts build",
     "test": "yarn lint:css && react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "yarn lint:css && yarn lint:js",
     "lint:css": "./node_modules/stylelint/bin/stylelint.js ./src/sass/**/*.scss",
+    "lint:js": "eslint ./src/**/*.js",
     "watch": "cra-build-watch"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "yarn lint",
+      "yarn prettier --write",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [
