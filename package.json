@@ -37,8 +37,15 @@
   },
   "devDependencies": {
     "cra-build-watch": "^3.0.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
     "flow-bin": "^0.115.0",
     "flow-typed": "^2.6.2",
+    "husky": "^4.0.7",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
     "redux-devtools-extension": "^2.13.8",
     "stylelint": "^13.0.0",
     "stylelint-config-standard": "^19.0.0"
