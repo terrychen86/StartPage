@@ -1,15 +1,16 @@
 // @flow
 
 import * as React from 'react';
+import Box from '@material-ui/core/Box';
+import grey from '@material-ui/core/colors/grey';
 import { useDrop } from 'react-dnd';
-import css from 'classnames';
 
 import DraggableIcon from './DraggableIcon';
 import type { IconItemType } from '../types/IconItemType';
 import DraggableItems from './DraggableItems';
 
 import fetchIcon from '../utils/fetchIcon';
-import styles from './DroppablePanel.module.scss';
+import spaces from '../utils/spaces';
 
 type IconItemArrayType = Array<IconItemType>;
 
@@ -99,28 +100,38 @@ const DroppablePanel = (): React.Node => {
     setIconItems(newIconItems);
   };
 
-  const getGridStyles = (n: number): string => {
+  const getPanelHeight = (n: number): string => {
     if (n <= 5) {
-      return styles.oneRow;
+      return '33%';
     }
 
     if (n <= 10) {
-      return styles.twoRow;
+      return '66%';
     }
 
-    return styles.threeRow;
+    return '100%';
   };
 
   return (
-    <div ref={drop} className={styles.container}>
-      <div className={css(styles.iconPanel, getGridStyles(iconItems.length))}>
+    <Box ref={drop} height="100%">
+      <Box display="flex" flexWrap="wrap" height={getPanelHeight(iconItems.length)}>
         {iconItems.map((item, i) => (
-          <div className={styles.iconWrapper} key={item.id}>
+          <Box
+            key={item.id}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flex="0 1 20%"
+            width="20%"
+            height="33%"
+            p={spaces.sm}
+            color={grey[50]}
+          >
             <DraggableIcon index={i} iconItem={item} onIconDrag={handleIconItemMove} />
-          </div>
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
