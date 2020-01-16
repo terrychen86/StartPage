@@ -34,9 +34,16 @@ const DraggableIcon = ({ index, iconItem, onIconDrag }: Props): React.Node => {
   });
 
   return (
-    <div className={css(isDragging && styles.dragging)} ref={node => drag(drop(node))}>
-      {name}
-    </div>
+    <a href={iconItem.iconUrl}>
+      <div className={css(styles.icon, isDragging && styles.dragging)} ref={node => drag(drop(node))}>
+        <div className={styles.iconBox}>
+          <div className={styles.iconImageWrapper}>
+            <img className={styles.iconImage} src={iconItem.iconUrl} alt={name} />
+          </div>
+        </div>
+        <div className={styles.iconName}>{name}</div>
+      </div>
+    </a>
   );
 };
 export default DraggableIcon;
