@@ -100,11 +100,13 @@ const DroppablePanel = (): React.Node => {
   return (
     <>
       <div ref={drop} className={styles.container}>
-        {iconItems.map((item, i) => (
-          <div className={styles.iconWrapper} key={item.id}>
-            <DraggableIcon index={i} iconItem={item} onIconDrag={handleIconItemMove} />
-          </div>
-        ))}
+        <div className={styles.iconPanel}>
+          {iconItems.map((item, i) => (
+            <div className={styles.iconWrapper} key={item.id}>
+              <DraggableIcon index={i} iconItem={item} onIconDrag={handleIconItemMove} />
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
