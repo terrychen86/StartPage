@@ -5,14 +5,7 @@ import thunk from 'redux-thunk';
 import createRootReducer from '../reducers/root';
 
 const configureStore = () => {
-  const store = createStore(
-    createRootReducer(),
-    composeWithDevTools(
-      applyMiddleware(
-        thunk,
-      ),
-    ),
-  );
+  const store = createStore(createRootReducer(), composeWithDevTools(applyMiddleware(thunk)));
 
   if (module.hot) {
     module.hot.accept('../reducers/root', () => {

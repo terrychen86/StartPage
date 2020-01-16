@@ -1,6 +1,5 @@
 // @flow
 
-
 export const UPDATE_ROUTE: string = 'UPDATE_ROUTE';
 
 export type RouteActions = {

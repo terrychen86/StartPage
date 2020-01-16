@@ -9,11 +9,7 @@ const App = (): React.Node => {
   const routes = useSelector(state => state.routes);
   const { route } = routes;
 
-  return (
-    <div className={styles.appContainer}>
-      <main>{renderPage(route)}</main>
-    </div>
-  );
+  return <div className={styles.appContainer}>{renderPage(route)}</div>;
 };
 
 export default App;

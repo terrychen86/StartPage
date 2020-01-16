@@ -8,14 +8,11 @@ export type State = {
 };
 
 const ROUTE_ACTION_TYPE_DEFAULT_STATE: State = {
-  route: "index",
+  route: 'index',
 };
 
-const RouteReducer = (
-  state: State = ROUTE_ACTION_TYPE_DEFAULT_STATE,
-  action: RouteActions
-): State => {
-  const { type, route} = action;
+const RouteReducer = (state: State = ROUTE_ACTION_TYPE_DEFAULT_STATE, action: RouteActions): State => {
+  const { type, route } = action;
   switch (type) {
     case UPDATE_ROUTE: {
       return {
