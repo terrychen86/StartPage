@@ -11,10 +11,18 @@
   "extends": [
     "airbnb",
     "airbnb/hooks",
+    "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/strict",
     "plugin:prettier/recommended",
     "prettier/react"
+  ],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "prettier",
+    "flowtype"
   ],
   "rules": {
     "react/jsx-filename-extension": [
