@@ -1,14 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import Index from '../layouts/Index';
+import Main from '../layouts/Main';
 
 export type Route = {
   [string]: React.Node,
 };
 
 export const routes: Route = {
-  index: <Index />,
+  index: <Main />,
 };
 
 export const renderPage = (route: string): React.Node => routes[route] || <></>;
