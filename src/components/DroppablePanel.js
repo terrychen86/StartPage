@@ -119,6 +119,18 @@ const ICON_ITEMS: IconItemArrayType = [
     url: '',
     iconUrl: fetchIcon('amazon'),
   },
+  {
+    id: '17',
+    name: 'Google Doc',
+    url: '',
+    iconUrl: fetchIcon('amazon'),
+  },
+  {
+    id: '18',
+    name: 'Google Doc',
+    url: '',
+    iconUrl: fetchIcon('amazon'),
+  },
 ];
 
 const DroppablePanel = (): React.Node => {

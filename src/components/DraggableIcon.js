@@ -59,7 +59,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   const [{ isDragging }, drag] = useDrag({
     item: { type: DraggableItems.ICON, id, index },
     collect: monitor => ({
-      isDragging: monitor.isDragging(),
+      isDragging: monitor.getItem() && iconItem && iconItem.id === monitor.getItem().id,
     }),
   });
 
