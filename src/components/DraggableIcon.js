@@ -14,8 +14,26 @@ import spaces from 'utils/spaces';
 import { css, makeStyles, type Styles } from 'utils/styles';
 
 const useStyles = makeStyles({
+  '@keyframes icon-shaking': {
+    '0%': {
+      transform: 'rotate(0deg)',
+    },
+    '20%': {
+      transform: 'rotate(-5deg)',
+    },
+    '25%': {
+      transform: 'rotate(0deg)',
+    },
+    '75%': {
+      transform: 'rotate(5deg)',
+    },
+    '100%': {
+      transform: 'rotate(0deg)',
+    },
+  },
   dragging: {
-    opacity: 0.5,
+    opacity: 0.75,
+    animation: '$icon-shaking 400ms 0ms infinite',
   },
 });
 
