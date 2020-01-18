@@ -33,7 +33,14 @@
     ],
     "no-console": "off",
     "react/prop-types": 0,
-    "prettier/prettier": ["warn"]
+    "prettier/prettier": ["warn"],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ]
   },
   "globals": {
     "window": true,
