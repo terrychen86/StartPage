@@ -6,6 +6,7 @@ import grey from '@material-ui/core/colors/grey';
 import { useDrop } from 'react-dnd';
 
 import DraggableIcon from 'components/DraggableIcon';
+import Indicators from 'components/Indicators';
 import type { IconItemType } from 'types/IconItemType';
 import DraggableItems from 'components/DraggableItems';
 
@@ -187,6 +188,10 @@ const DroppablePanel = (): React.Node => {
     setIconItems(newIconItems);
   };
 
+  const onIndicatorClick = (i: number): void => {
+    setPanelIdx(i);
+  };
+
   const getPanelHeight = (n: number): string => {
     if (n <= 5) return '33%';
     if (n <= 10) return '66%';
@@ -203,6 +208,9 @@ const DroppablePanel = (): React.Node => {
     <Box ref={drop} height="100%" position="relative">
       <Box ref={prevPageRef} position="absolute" top="0" bottom="0" left="-60px" width="30px" zIndex={3} />
       <Box ref={nextPageRef} position="absolute" top="0" bottom="0" right="-60px" width="30px" zIndex={3} />
+      <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
+        <Indicators num={iconSet.length} onClick={onIndicatorClick} />
+      </Box>
       <Box overflow="hidden" width="100%" height="100%" display="flex">
         {iconSet.map((set, index) => (
           <Box key={`${index + 1}`} height="100%" width="100%" flex="1 0 100%">
