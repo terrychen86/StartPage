@@ -5,19 +5,24 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-
 import { useDrag, useDrop } from 'react-dnd';
 
-import DraggableItems from './DraggableItems';
-import type { IconItemType } from '../types/IconItemType';
-import * as colors from '../utils/colors';
-import spaces from '../utils/spaces';
-import styles from './DraggableIcon.module.scss';
+import DraggableItems from 'components/DraggableItems';
+import type { IconItemType } from 'types/IconItemType';
+import * as colors from 'utils/colors';
+import spaces from 'utils/spaces';
+import { css, makeStyles, type Styles } from 'utils/styles';
+
+const useStyles = makeStyles({
+  dragging: {
+    opacity: 0.5,
+  },
+});
 
 type Props = {|
   +index: number,
   +iconItem: IconItemType,
-  +onIconDrag: (id: string, targetId: string) => void,
+  +onIconHover: (id: string, targetId: string) => void,
 |};
 
 type MouseState = {|
@@ -25,11 +30,13 @@ type MouseState = {|
   +mouseY: ?number,
 |};
 
-const DraggableIcon = ({ index, iconItem, onIconDrag }: Props): React.Node => {
+const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   const [mouseState, setMouseState] = React.useState<MouseState>({
     mouseX: null,
     mouseY: null,
   });
+
+  const styles: Styles = useStyles();
   const { id, name } = iconItem;
   const [{ isDragging }, drag] = useDrag({
     item: { type: DraggableItems.ICON, id, index },
@@ -42,7 +49,7 @@ const DraggableIcon = ({ index, iconItem, onIconDrag }: Props): React.Node => {
     accept: DraggableItems.ICON,
     hover({ id: targetId }) {
       if (targetId !== id) {
-        onIconDrag(id, targetId);
+        onIconHover(id, targetId);
       }
     },
   });
@@ -61,8 +68,20 @@ const DraggableIcon = ({ index, iconItem, onIconDrag }: Props): React.Node => {
 
   return (
     <Box component="a" href={iconItem.iconUrl}>
-      <Box onContextMenu={handleRightClick} className={isDragging && styles.dragging} ref={node => drag(drop(node))}>
-        <Box mx="auto" my="0" width="80px" height="80px" bgcolor={colors.white} borderRadius="20px">
+      <Box
+        onContextMenu={handleRightClick}
+        className={css(isDragging && styles.dragging)}
+        ref={node => drag(drop(node))}
+      >
+        <Box
+          mx="auto"
+          my="0"
+          width="80px"
+          height="80px"
+          bgcolor={colors.white}
+          borderRadius="20px"
+          boxShadow="4px 4px 16px 8px rgba(0,0,0,0.1)"
+        >
           <Box p={spaces.sm}>
             <Box component="img" width="100%" src={iconItem.iconUrl} alt={name} />
           </Box>
@@ -84,8 +103,10 @@ const DraggableIcon = ({ index, iconItem, onIconDrag }: Props): React.Node => {
               : undefined
           }
         >
+          <MenuItem onClick={handleContextMenuClose}>Open in new tab</MenuItem>
           <MenuItem onClick={handleContextMenuClose}>Edit</MenuItem>
           <MenuItem onClick={handleContextMenuClose}>Delete</MenuItem>
+          <MenuItem onClick={handleContextMenuClose}>Cancel</MenuItem>
         </Menu>
       </Box>
     </Box>
