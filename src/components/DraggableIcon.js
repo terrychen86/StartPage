@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { useDrag, useDrop } from 'react-dnd';
 
 import DraggableItems from 'components/DraggableItems';
-import type { IconItemType } from 'types/IconItemType';
+import type { IconItem } from 'types/IconItem';
 import * as colors from 'utils/colors';
 import spaces from 'utils/spaces';
 import { css, makeStyles, type Styles } from 'utils/styles';
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 
 type Props = {|
   +index: number,
-  +iconItem: IconItemType,
+  +iconItem: IconItem,
   +onIconHover: (id: string, targetId: string) => void,
 |};
 

@@ -7,7 +7,7 @@ import { useDrop } from 'react-dnd';
 
 import DraggableIcon from 'components/DraggableIcon';
 import Indicators from 'components/Indicators';
-import type { IconItemType } from 'types/IconItemType';
+import type { IconItem } from 'types/IconItem';
 import DraggableItems from 'components/DraggableItems';
 
 import { makeStyles, type Styles } from 'utils/styles';
@@ -20,10 +20,10 @@ const useStyles = makeStyles({
   },
 });
 
-type IconItemArrayType = Array<IconItemType>;
+type IconItemArray = Array<IconItem>;
 
 // TODO: move to data layer
-const ICON_ITEMS: IconItemArrayType = [
+const ICON_ITEMS: IconItemArray = [
   {
     id: '1',
     name: 'Amazon',
@@ -136,10 +136,10 @@ const ICON_ITEMS: IconItemArrayType = [
 
 const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
-  const [iconItems, setIconItems] = React.useState<IconItemArrayType>(ICON_ITEMS);
+  const [iconItems, setIconItems] = React.useState<IconItemArray>(ICON_ITEMS);
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
-  const iconSet: Array<IconItemArrayType> = iconItems.reduce((aggr, cur) => {
+  const iconSet: Array<IconItemArray> = iconItems.reduce((aggr, cur) => {
     if (aggr.length === 0 || aggr[aggr.length - 1].length >= 15) {
       aggr.push([cur]);
     } else {
@@ -176,14 +176,14 @@ const DroppablePanel = (): React.Node => {
   });
 
   const onIconHover = (id: string, targetId: string): void => {
-    const curIconItem: ?IconItemType = iconItems.find(n => n.id === id);
+    const curIconItem: ?IconItem = iconItems.find(n => n.id === id);
     if (!curIconItem) return;
 
-    const targetItem: ?IconItemType = iconItems.find(n => n.id === targetId);
+    const targetItem: ?IconItem = iconItems.find(n => n.id === targetId);
     if (!targetItem) return;
 
     const targetIndex: number = iconItems.indexOf(targetItem);
-    const newIconItems: IconItemArrayType = iconItems.filter(n => n.id !== id);
+    const newIconItems: IconItemArray = iconItems.filter(n => n.id !== id);
     newIconItems.splice(targetIndex, 0, curIconItem);
     setIconItems(newIconItems);
   };
