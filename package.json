@@ -22,8 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "yarn lint:css && react-scripts build",
-    "test": "yarn lint:css && react-scripts test",
+    "build": "yarn lint && react-scripts build",
+    "test": "yarn lint && react-scripts test",
     "eject": "react-scripts eject",
     "lint": "yarn lint:css && yarn lint:js",
     "lint:css": "./node_modules/stylelint/bin/stylelint.js ./src/sass/**/*.scss",
