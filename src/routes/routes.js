@@ -8,7 +8,7 @@ export type Route = {
 };
 
 export const routes: Route = {
-  index: <Main />,
+  INDEX: <Main />,
 };
 
 export const renderPage = (route: string): React.Node => routes[route] || <></>;

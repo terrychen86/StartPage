@@ -1,13 +1,17 @@
 // @flow
 
-export const UPDATE_ROUTE: string = 'UPDATE_ROUTE';
-
-export type RouteActions = {
-  type: string,
-  route: string,
+export const ROUTE_ACTIONS = {
+  UPDATE_ROUTE: 'UPDATE_ROUTE',
 };
 
-export const updateRoute = (route: string): RouteActions => ({
-  type: UPDATE_ROUTE,
-  route,
-});
+export const ROUTES = {
+  INDEX: 'INDEX',
+  SETTING: 'SETTING',
+};
+
+export type RouteType = $Keys<typeof ROUTES>;
+
+export type RouteActionType = {|
+  +type: $Keys<typeof ROUTE_ACTIONS>,
+  +route: RouteType,
+|};
