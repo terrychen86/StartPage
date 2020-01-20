@@ -19,13 +19,13 @@ const useStyles = makeStyles({
       transform: 'rotate(0deg)',
     },
     '20%': {
-      transform: 'rotate(-5deg)',
+      transform: 'rotate(-3deg)',
     },
     '25%': {
       transform: 'rotate(0deg)',
     },
     '75%': {
-      transform: 'rotate(5deg)',
+      transform: 'rotate(3deg)',
     },
     '100%': {
       transform: 'rotate(0deg)',
