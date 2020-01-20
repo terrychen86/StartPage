@@ -25,17 +25,16 @@ const useStyles = makeStyles({
 type Props = {|
   +num: number,
   +onClick: number => void,
+  +activeIndex: number,
 |};
 
 const Indicators = (props: Props): React.Node => {
   const styles: Styles = useStyles();
-  const { num, onClick } = props;
-  const [indicatorIdx, setIndicatorIdx] = React.useState<number>(0);
+  const { num, onClick, activeIndex } = props;
 
   const handleIndicatorClick = (e: SyntheticEvent<HTMLButtonElement>) => {
     const { dataset } = e.currentTarget;
     const { id } = dataset;
-    setIndicatorIdx(+id);
     onClick(+id);
   };
 
@@ -54,7 +53,7 @@ const Indicators = (props: Props): React.Node => {
             height="4px"
             flex="1 1 100%"
             borderRadius="4px"
-            bgcolor={i === indicatorIdx ? colors.white : 'rgba(255, 255, 255, 0.25)'}
+            bgcolor={i === activeIndex ? colors.white : 'rgba(255, 255, 255, 0.25)'}
           />
         </button>
       ))}

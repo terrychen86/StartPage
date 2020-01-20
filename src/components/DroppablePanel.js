@@ -138,6 +138,7 @@ const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
   const [iconItems, setIconItems] = React.useState<IconItemArray>(ICON_ITEMS);
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
+
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
   const iconSet: Array<IconItemArray> = iconItems.reduce((aggr, cur) => {
     if (aggr.length === 0 || aggr[aggr.length - 1].length >= 15) {
@@ -209,7 +210,7 @@ const DroppablePanel = (): React.Node => {
       <Box ref={prevPageRef} position="absolute" top="0" bottom="0" left="-60px" width="30px" zIndex={3} />
       <Box ref={nextPageRef} position="absolute" top="0" bottom="0" right="-60px" width="30px" zIndex={3} />
       <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
-        <Indicators num={iconSet.length} onClick={onIndicatorClick} />
+        <Indicators activeIndex={panelIdx} num={iconSet.length} onClick={onIndicatorClick} />
       </Box>
       <Box overflow="hidden" width="100%" height="100%" display="flex">
         {iconSet.map((set, index) => (
