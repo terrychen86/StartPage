@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 import * as colors from 'utils/colors';
 import spaces from 'utils/spaces';
+import fetchIcon from 'utils/fetchIcon';
 
 type Props = {|
   +name: string,
@@ -24,28 +25,32 @@ const Icon = (props: Props): React.Node => {
         height="80px"
         bgcolor={colors.white}
         borderRadius="20px"
-        boxShadow="4px 4px 16px 8px rgba(0,0,0,0.1)"
+        boxShadow="2px 2px 6px 2px rgba(0,0,0,0.1)"
       >
         <Box p={spaces.sm}>
-          <Box component="img" width="100%" src={url} alt={name} />
+          <Box component="img" width="100%" src={url || fetchIcon('defaultIcon')} alt={name} />
         </Box>
       </Box>
-      <Box
-        display="inline-block"
-        maxWidth="125px"
-        my={spaces.xs}
-        mx="auto"
-        px={spaces.sm}
-        py={spaces.tiny}
-        borderRadius="8px"
-        bgcolor="rgba(0, 0, 0, 0.5)"
-        overflow="hidden"
-        textOverflow="ellipsis"
-      >
-        <Typography align="center" variant="button">
-          {name}
-        </Typography>
-      </Box>
+      {name && (
+        <Box
+          display="inline-block"
+          maxWidth="125px"
+          maxHeight="55px"
+          my={spaces.xs}
+          mx="auto"
+          px={spaces.sm}
+          py={spaces.tiny}
+          borderRadius="8px"
+          color={colors.white}
+          bgcolor="rgba(0, 0, 0, 0.5)"
+          overflow="hidden"
+          textOverflow="ellipsis"
+        >
+          <Typography align="center" variant="button" color="inherit">
+            {name}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -11,8 +11,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
 import spaces from 'utils/spaces';
-import fetchIcon from 'utils/fetchIcon';
 import type { IconItem } from 'types/IconItem';
 import { MODALS, MODAL_ACTIONS, type ModalActionType } from 'actions/ModalActions';
 
@@ -22,7 +22,7 @@ const AddIconModal = (): React.Node => {
     id: nanoid(),
     name: '',
     url: '',
-    iconUrl: fetchIcon('defaultIcon'),
+    iconUrl: '',
   });
 
   const { modal } = useSelector(state => state.modals);
@@ -52,23 +52,21 @@ const AddIconModal = (): React.Node => {
       </Box>
 
       <DialogContent>
-        <Box display="flex">
-          <Box flex="1 1 40%">
-            <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />
-          </Box>
-
-          <Box flex="1 1 60%">TBD</Box>
-        </Box>
+        <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={handleModalClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleModalClose} color="primary">
-          Subscribe
-        </Button>
-      </DialogActions>
+      {tabIndex === 0 && (
+        <DialogActions>
+          <Box pr={spaces.md} pb={spaces.xs}>
+            <Button onClick={handleModalClose} color="primary">
+              Create
+            </Button>
+            <Button onClick={handleModalClose} color="default">
+              Cancel
+            </Button>
+          </Box>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };
