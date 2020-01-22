@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
 import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
+import PopularIconPanel from 'components/AddIconModal/PopularIconPanel';
 import spaces from 'utils/spaces';
 import type { IconItem } from 'types/IconItem';
 import { MODALS, MODAL_ACTIONS, type ModalActionType } from 'actions/ModalActions';
@@ -22,7 +23,7 @@ const AddIconModal = (): React.Node => {
     id: nanoid(),
     name: '',
     url: '',
-    iconUrl: '',
+    iconSrc: '',
   });
 
   const { modal } = useSelector(state => state.modals);
@@ -52,7 +53,8 @@ const AddIconModal = (): React.Node => {
       </Box>
 
       <DialogContent>
-        <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />
+        {tabIndex === 0 && <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />}
+        {tabIndex === 1 && <PopularIconPanel />}
       </DialogContent>
 
       {tabIndex === 0 && (

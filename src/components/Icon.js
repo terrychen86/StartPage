@@ -10,25 +10,25 @@ import fetchIcon from 'utils/fetchIcon';
 
 type Props = {|
   +name: string,
-  +url: string,
+  +src: string,
 |};
 
 const Icon = (props: Props): React.Node => {
-  const { name, url } = props;
+  const { name, src } = props;
 
   return (
-    <Box width="150px" textAlign="center">
+    <Box width="150px" height="165px" textAlign="center">
       <Box
         mx="auto"
         my="0"
         width="80px"
         height="80px"
-        bgcolor={colors.white}
+        bgcolor="#f1f4ff"
         borderRadius="20px"
         boxShadow="2px 2px 6px 2px rgba(0,0,0,0.1)"
       >
         <Box p={spaces.sm}>
-          <Box component="img" width="100%" src={url || fetchIcon('defaultIcon')} alt={name} />
+          <Box component="img" width="100%" src={src || fetchIcon('defaultIcon')} alt={name} />
         </Box>
       </Box>
       {name && (

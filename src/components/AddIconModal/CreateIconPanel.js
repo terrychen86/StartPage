@@ -14,7 +14,7 @@ type Props = {|
 
 const CreateIconPanel = (props: Props): React.Node => {
   const { iconItem, onIconItemChange } = props;
-  const { name, url, iconUrl } = iconItem;
+  const { name, url, iconSrc } = iconItem;
   const handleNameChange = (e: SyntheticEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
     onIconItemChange({
@@ -31,18 +31,18 @@ const CreateIconPanel = (props: Props): React.Node => {
     });
   };
 
-  const handleIconUrlChange = (e: SyntheticEvent<HTMLInputElement>): void => {
+  const handleiconSrcChange = (e: SyntheticEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
     onIconItemChange({
       ...iconItem,
-      iconUrl: value,
+      iconSrc: value,
     });
   };
 
   return (
-    <Box display="flex" alignItems="center" p={spaces.sm}>
-      <Box flex="0 0 auto" textAlign="center">
-        <Icon name={iconItem.name} url={iconItem.iconUrl} />
+    <Box display="flex" p={spaces.sm}>
+      <Box flex="0 0 auto" textAlign="center" pt={spaces.md}>
+        <Icon name={iconItem.name} src={iconItem.iconSrc} />
       </Box>
       <Box flex="1 1 auto">
         <Box maxWidth="275px" mx="auto">
@@ -53,7 +53,7 @@ const CreateIconPanel = (props: Props): React.Node => {
             <TextField label="Url" size="small" fullWidth value={url} onChange={handleUrlChange} />
           </Box>
           <Box my={spaces.xxs}>
-            <TextField label="Icon" size="small" fullWidth value={iconUrl} onChange={handleIconUrlChange} />
+            <TextField label="Icon" size="small" fullWidth value={iconSrc} onChange={handleiconSrcChange} />
           </Box>
         </Box>
       </Box>

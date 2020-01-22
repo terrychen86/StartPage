@@ -11,8 +11,8 @@ import type { IconItem } from 'types/IconItem';
 import DraggableItems from 'components/DraggableItems';
 
 import { makeStyles, type Styles } from 'utils/styles';
-import fetchIcon from 'utils/fetchIcon';
 import spaces from 'utils/spaces';
+import iconData from 'data/iconData';
 
 const useStyles = makeStyles({
   transition: {
@@ -22,121 +22,9 @@ const useStyles = makeStyles({
 
 type IconItemArray = Array<IconItem>;
 
-// TODO: move to data layer
-const ICON_ITEMS: IconItemArray = [
-  {
-    id: '1',
-    name: 'Amazon',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '2',
-    name: 'Gmail',
-    url: '',
-    iconUrl: fetchIcon('apple'),
-  },
-  {
-    id: '3',
-    name: 'Youtube',
-    url: '',
-    iconUrl: fetchIcon('bing'),
-  },
-  {
-    id: '4',
-    name: 'Facebook',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '5',
-    name: 'LinkedIn',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '6',
-    name: 'Instagram',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '7',
-    name: 'Github',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '8',
-    name: 'Amazon',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '9',
-    name: 'Medium',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '10',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '16',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '11',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '12',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '13',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '14',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '15',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '17',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '18',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-];
-
 const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
-  const [iconItems, setIconItems] = React.useState<IconItemArray>(ICON_ITEMS);
+  const [iconItems, setIconItems] = React.useState<IconItemArray>(iconData);
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
 
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
@@ -201,7 +89,7 @@ const DroppablePanel = (): React.Node => {
 
   const getIconHeight = (n: number): string => {
     if (n <= 5) return '100%';
-    if (n <= 10) return '66%';
+    if (n <= 10) return '50%';
     return '33%';
   };
 

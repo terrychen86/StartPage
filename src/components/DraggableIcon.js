@@ -53,7 +53,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   });
 
   const styles: Styles = useStyles();
-  const { id, name, iconUrl } = iconItem;
+  const { id, name, iconSrc, url } = iconItem;
   const [{ isDragging }, drag] = useDrag({
     item: { type: DraggableItems.ICON, id, index },
     collect: monitor => ({
@@ -83,13 +83,13 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   };
 
   return (
-    <Box component="a" href={iconUrl}>
+    <Box component="a" href={url}>
       <Box
         onContextMenu={handleRightClick}
         className={css(isDragging && styles.dragging)}
         ref={node => drag(drop(node))}
       >
-        <Icon name={name} url={iconUrl} />
+        <Icon name={name} src={iconSrc} />
         <Menu
           keepMounted
           open={mouseState.mouseY !== null}
