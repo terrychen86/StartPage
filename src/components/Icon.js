@@ -23,7 +23,7 @@ const Icon = (props: Props): React.Node => {
         my="0"
         width="80px"
         height="80px"
-        bgcolor="#f1f4ff"
+        bgcolor={colors.nearWhite}
         borderRadius="20px"
         boxShadow="2px 2px 6px 2px rgba(0,0,0,0.1)"
       >
@@ -34,7 +34,7 @@ const Icon = (props: Props): React.Node => {
       {name && (
         <Box
           display="inline-block"
-          maxWidth="125px"
+          maxWidth="120px"
           maxHeight="55px"
           my={spaces.xs}
           mx="auto"
