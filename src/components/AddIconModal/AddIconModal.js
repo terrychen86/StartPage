@@ -30,6 +30,8 @@ const AddIconModal = (): React.Node => {
   const dispatch = useDispatch();
 
   const shouldOpenModal: boolean = modal === MODALS.ADD_ICON;
+  const modalSize: string = tabIndex === 0 ? 'sm' : 'md';
+
   const handleModalClose = React.useCallback((): void => {
     const action: ModalActionType = { type: MODAL_ACTIONS.OPEN_MODAL, modal: null };
     dispatch(action);
@@ -44,31 +46,33 @@ const AddIconModal = (): React.Node => {
   };
 
   return (
-    <Dialog maxWidth="sm" fullWidth open={shouldOpenModal} onClose={handleModalClose} disableScrollLock>
+    <Dialog maxWidth={modalSize} fullWidth open={shouldOpenModal} onClose={handleModalClose} disableScrollLock>
       <Box p={spaces.md}>
-        <Tabs value={tabIndex} onChange={handleTabClick} indicatorColor="primary" textColor="primary" centered>
-          <Tab label="Create an icon" />
-          <Tab label="Add popular icons" />
-        </Tabs>
+        <Box>
+          <Tabs value={tabIndex} onChange={handleTabClick} indicatorColor="primary" textColor="primary" centered>
+            <Tab label="Create an icon" />
+            <Tab label="Add popular icons" />
+          </Tabs>
+        </Box>
+
+        <DialogContent>
+          {tabIndex === 0 && <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />}
+          {tabIndex === 1 && <PopularIconPanel />}
+        </DialogContent>
+
+        {tabIndex === 0 && (
+          <DialogActions>
+            <Box pr={spaces.md} pb={spaces.xs}>
+              <Button onClick={handleModalClose} color="primary">
+                Create
+              </Button>
+              <Button onClick={handleModalClose} color="default">
+                Cancel
+              </Button>
+            </Box>
+          </DialogActions>
+        )}
       </Box>
-
-      <DialogContent>
-        {tabIndex === 0 && <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />}
-        {tabIndex === 1 && <PopularIconPanel />}
-      </DialogContent>
-
-      {tabIndex === 0 && (
-        <DialogActions>
-          <Box pr={spaces.md} pb={spaces.xs}>
-            <Button onClick={handleModalClose} color="primary">
-              Create
-            </Button>
-            <Button onClick={handleModalClose} color="default">
-              Cancel
-            </Button>
-          </Box>
-        </DialogActions>
-      )}
     </Dialog>
   );
 };

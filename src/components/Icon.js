@@ -34,7 +34,7 @@ const Icon = (props: Props): React.Node => {
       {name && (
         <Box
           display="inline-block"
-          maxWidth="120px"
+          maxWidth="124px"
           maxHeight="55px"
           my={spaces.xs}
           mx="auto"
