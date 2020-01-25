@@ -4,13 +4,11 @@ import * as React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { useDrag, useDrop } from 'react-dnd';
 
 import DraggableItems from 'components/DraggableItems';
-import type { IconItemType } from 'types/IconItemType';
-import * as colors from 'utils/colors';
-import spaces from 'utils/spaces';
+import Icon from 'components/Icon';
+import type { IconItem } from 'types/IconItem';
 import { css, makeStyles, type Styles } from 'utils/styles';
 
 const useStyles = makeStyles({
@@ -19,13 +17,13 @@ const useStyles = makeStyles({
       transform: 'rotate(0deg)',
     },
     '20%': {
-      transform: 'rotate(-5deg)',
+      transform: 'rotate(-3deg)',
     },
     '25%': {
       transform: 'rotate(0deg)',
     },
     '75%': {
-      transform: 'rotate(5deg)',
+      transform: 'rotate(3deg)',
     },
     '100%': {
       transform: 'rotate(0deg)',
@@ -39,7 +37,7 @@ const useStyles = makeStyles({
 
 type Props = {|
   +index: number,
-  +iconItem: IconItemType,
+  +iconItem: IconItem,
   +onIconHover: (id: string, targetId: string) => void,
 |};
 
@@ -55,7 +53,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   });
 
   const styles: Styles = useStyles();
-  const { id, name } = iconItem;
+  const { id, name, iconSrc, url } = iconItem;
   const [{ isDragging }, drag] = useDrag({
     item: { type: DraggableItems.ICON, id, index },
     collect: monitor => ({
@@ -85,31 +83,13 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
   };
 
   return (
-    <Box component="a" href={iconItem.iconUrl}>
+    <Box component="a" href={url}>
       <Box
         onContextMenu={handleRightClick}
         className={css(isDragging && styles.dragging)}
         ref={node => drag(drop(node))}
       >
-        <Box
-          mx="auto"
-          my="0"
-          width="80px"
-          height="80px"
-          bgcolor={colors.white}
-          borderRadius="20px"
-          boxShadow="4px 4px 16px 8px rgba(0,0,0,0.1)"
-        >
-          <Box p={spaces.sm}>
-            <Box component="img" width="100%" src={iconItem.iconUrl} alt={name} />
-          </Box>
-        </Box>
-        <Box my={spaces.xs} px={spaces.sm} py={spaces.tiny} borderRadius="8px" bgcolor="rgba(0, 0, 0, 0.5)">
-          <Typography align="center" variant="button">
-            {name}
-          </Typography>
-        </Box>
-
+        <Icon name={name} src={iconSrc} />
         <Menu
           keepMounted
           open={mouseState.mouseY !== null}

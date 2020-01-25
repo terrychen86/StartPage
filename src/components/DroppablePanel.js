@@ -7,12 +7,12 @@ import { useDrop } from 'react-dnd';
 
 import DraggableIcon from 'components/DraggableIcon';
 import Indicators from 'components/Indicators';
-import type { IconItemType } from 'types/IconItemType';
+import type { IconItem } from 'types/IconItem';
 import DraggableItems from 'components/DraggableItems';
 
 import { makeStyles, type Styles } from 'utils/styles';
-import fetchIcon from 'utils/fetchIcon';
 import spaces from 'utils/spaces';
+import iconData from 'data/iconData';
 
 const useStyles = makeStyles({
   transition: {
@@ -20,126 +20,15 @@ const useStyles = makeStyles({
   },
 });
 
-type IconItemArrayType = Array<IconItemType>;
-
-// TODO: move to data layer
-const ICON_ITEMS: IconItemArrayType = [
-  {
-    id: '1',
-    name: 'Amazon',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '2',
-    name: 'Gmail',
-    url: '',
-    iconUrl: fetchIcon('apple'),
-  },
-  {
-    id: '3',
-    name: 'Youtube',
-    url: '',
-    iconUrl: fetchIcon('bing'),
-  },
-  {
-    id: '4',
-    name: 'Facebook',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '5',
-    name: 'LinkedIn',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '6',
-    name: 'Instagram',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '7',
-    name: 'Github',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '8',
-    name: 'Amazon',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '9',
-    name: 'Medium',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '10',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '16',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '11',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '12',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '13',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '14',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '15',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '17',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-  {
-    id: '18',
-    name: 'Google Doc',
-    url: '',
-    iconUrl: fetchIcon('amazon'),
-  },
-];
+type IconItemArray = Array<IconItem>;
 
 const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
-  const [iconItems, setIconItems] = React.useState<IconItemArrayType>(ICON_ITEMS);
+  const [iconItems, setIconItems] = React.useState<IconItemArray>(iconData);
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
+
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
-  const iconSet: Array<IconItemArrayType> = iconItems.reduce((aggr, cur) => {
+  const iconSet: Array<IconItemArray> = iconItems.reduce((aggr, cur) => {
     if (aggr.length === 0 || aggr[aggr.length - 1].length >= 15) {
       aggr.push([cur]);
     } else {
@@ -176,14 +65,14 @@ const DroppablePanel = (): React.Node => {
   });
 
   const onIconHover = (id: string, targetId: string): void => {
-    const curIconItem: ?IconItemType = iconItems.find(n => n.id === id);
+    const curIconItem: ?IconItem = iconItems.find(n => n.id === id);
     if (!curIconItem) return;
 
-    const targetItem: ?IconItemType = iconItems.find(n => n.id === targetId);
+    const targetItem: ?IconItem = iconItems.find(n => n.id === targetId);
     if (!targetItem) return;
 
     const targetIndex: number = iconItems.indexOf(targetItem);
-    const newIconItems: IconItemArrayType = iconItems.filter(n => n.id !== id);
+    const newIconItems: IconItemArray = iconItems.filter(n => n.id !== id);
     newIconItems.splice(targetIndex, 0, curIconItem);
     setIconItems(newIconItems);
   };
@@ -200,7 +89,7 @@ const DroppablePanel = (): React.Node => {
 
   const getIconHeight = (n: number): string => {
     if (n <= 5) return '100%';
-    if (n <= 10) return '66%';
+    if (n <= 10) return '50%';
     return '33%';
   };
 
@@ -209,7 +98,7 @@ const DroppablePanel = (): React.Node => {
       <Box ref={prevPageRef} position="absolute" top="0" bottom="0" left="-60px" width="30px" zIndex={3} />
       <Box ref={nextPageRef} position="absolute" top="0" bottom="0" right="-60px" width="30px" zIndex={3} />
       <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
-        <Indicators num={iconSet.length} onClick={onIndicatorClick} />
+        <Indicators activeIndex={panelIdx} num={iconSet.length} onClick={onIndicatorClick} />
       </Box>
       <Box overflow="hidden" width="100%" height="100%" display="flex">
         {iconSet.map((set, index) => (

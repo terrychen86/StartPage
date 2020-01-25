@@ -1,20 +1,19 @@
 // @flow
 
-import type { RouteActions } from '../actions/RouteActions';
-import { UPDATE_ROUTE } from '../actions/RouteActions';
+import { ROUTES, ROUTE_ACTIONS, type RouteType, type RouteActionType } from 'actions/RouteActions';
 
 export type State = {
-  route: string,
+  route: RouteType,
 };
 
 const ROUTE_ACTION_TYPE_DEFAULT_STATE: State = {
-  route: 'index',
+  route: ROUTES.INDEX,
 };
 
-const RouteReducer = (state: State = ROUTE_ACTION_TYPE_DEFAULT_STATE, action: RouteActions): State => {
+const RouteReducer = (state: State = ROUTE_ACTION_TYPE_DEFAULT_STATE, action: RouteActionType): State => {
   const { type, route } = action;
   switch (type) {
-    case UPDATE_ROUTE: {
+    case ROUTE_ACTIONS.UPDATE_ROUTE: {
       return {
         route,
       };

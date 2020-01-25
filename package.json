@@ -5,7 +5,9 @@
   "dependencies": {
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "^4.0.0-alpha.39",
     "classnames": "^2.2.6",
+    "nanoid": "^2.1.9",
     "node-sass": "^4.13.0",
     "react": "^16.10.2",
     "react-dnd": "^10.0.2",
@@ -21,8 +23,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "yarn lint:css && react-scripts build",
-    "test": "yarn lint:css && react-scripts test",
+    "build": "yarn lint && react-scripts build",
+    "test": "yarn lint && react-scripts test",
     "eject": "react-scripts eject",
     "lint": "yarn lint:css && yarn lint:js",
     "lint:css": "./node_modules/stylelint/bin/stylelint.js ./src/sass/**/*.scss",
