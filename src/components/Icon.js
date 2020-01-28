@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 import * as colors from 'utils/colors';
 import spaces from 'utils/spaces';
-import fetchIcon from 'utils/fetchIcon';
+import resolveIconSrc from 'utils/resolveIconSrc';
 
 type Props = {|
   +name: string,
@@ -28,7 +28,7 @@ const Icon = (props: Props): React.Node => {
         boxShadow="2px 2px 6px 2px rgba(0,0,0,0.1)"
       >
         <Box p={spaces.sm}>
-          <Box component="img" width="100%" src={src || fetchIcon('defaultIcon')} alt={name} />
+          <Box component="img" width="100%" src={resolveIconSrc(src || 'built-in-defaultIcon')} alt={name} />
         </Box>
       </Box>
       {name && (

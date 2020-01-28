@@ -89,6 +89,13 @@ const ICONS = {
   youtube,
 };
 
-const fetchIcon = (name: $Keys<typeof ICONS>): string => ICONS[name];
+const resolveIconSrc = (src: string): string => {
+  if (src.startsWith('built-in-')) {
+    const id: string = src.replace('built-in-', '');
+    return ICONS[id] || defaultIcon;
+  }
 
-export default fetchIcon;
+  return src;
+};
+
+export default resolveIconSrc;

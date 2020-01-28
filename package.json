@@ -29,7 +29,8 @@
     "eject": "react-scripts eject",
     "lint": "yarn lint:css && yarn lint:js",
     "lint:css": "./node_modules/stylelint/bin/stylelint.js ./src/sass/**/*.scss",
-    "lint:js": "eslint ./src/**/*.js"
+    "lint:js": "eslint ./src/**/*.js",
+    "watch": "cra-build-watch"
   },
   "husky": {
     "hooks": {

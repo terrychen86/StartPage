@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { renderPage } from 'routes/routes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -9,10 +9,17 @@ import Box from '@material-ui/core/Box';
 import IconSpeedDial from 'components/IconSpeedDial';
 import ModalLoader from 'components/ModalLoader';
 import theme from 'themes/theme';
+import { requestIconItems } from 'actions/IconItemActions';
 import type { State as RouteState } from 'reducers/RouteReducer';
+import type { Dispatch } from 'types/Redux';
 
 const App = (): React.Node => {
   const { route }: RouteState = useSelector(state => state.routes);
+  const dispatch: Dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(requestIconItems());
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
