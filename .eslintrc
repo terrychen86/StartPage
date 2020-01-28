@@ -49,7 +49,8 @@
     "FormData": true,
     "FileReader": true,
     "Blob": true,
-    "navigator": true
+    "navigator": true,
+    "chrome": true
   },
   "settings": {
     "import/resolver": {

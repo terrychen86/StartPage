@@ -1,18 +1,18 @@
 // @flow
 
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import grey from '@material-ui/core/colors/grey';
 import { useDrop } from 'react-dnd';
-
 import DraggableIcon from 'components/DraggableIcon';
 import Indicators from 'components/Indicators';
-import type { IconItem } from 'types/IconItem';
 import DraggableItems from 'components/DraggableItems';
-
 import { makeStyles, type Styles } from 'utils/styles';
 import spaces from 'utils/spaces';
-import iconData from 'data/iconData';
+import { updateIconItems } from 'actions/IconItemActions';
+import type { IconItem } from 'types/IconItem';
+import type { Dispatch } from 'types/Redux';
 
 const useStyles = makeStyles({
   transition: {
@@ -24,17 +24,19 @@ type IconItemArray = Array<IconItem>;
 
 const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
-  const [iconItems, setIconItems] = React.useState<IconItemArray>(iconData);
+  const { iconItems } = useSelector(state => state.iconItems);
+  const dispatch: Dispatch = useDispatch();
+
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
 
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
-  const iconSet: Array<IconItemArray> = iconItems.reduce((aggr, cur) => {
-    if (aggr.length === 0 || aggr[aggr.length - 1].length >= 15) {
-      aggr.push([cur]);
+  const iconSet: Array<IconItemArray> = iconItems.reduce((acc, cur) => {
+    if (acc.length === 0 || acc[acc.length - 1].length >= 15) {
+      acc.push([cur]);
     } else {
-      aggr[aggr.length - 1].push(cur);
+      acc[acc.length - 1].push(cur);
     }
-    return aggr;
+    return acc;
   }, []);
 
   const [, drop] = useDrop({ accept: DraggableItems.ICON });
@@ -64,6 +66,13 @@ const DroppablePanel = (): React.Node => {
     },
   });
 
+  const dispatchUpdateIconItems = React.useCallback(
+    (icons: Array<IconItem>) => {
+      dispatch(updateIconItems(icons));
+    },
+    [dispatch],
+  );
+
   const onIconHover = (id: string, targetId: string): void => {
     const curIconItem: ?IconItem = iconItems.find(n => n.id === id);
     if (!curIconItem) return;
@@ -74,7 +83,11 @@ const DroppablePanel = (): React.Node => {
     const targetIndex: number = iconItems.indexOf(targetItem);
     const newIconItems: IconItemArray = iconItems.filter(n => n.id !== id);
     newIconItems.splice(targetIndex, 0, curIconItem);
-    setIconItems(newIconItems);
+
+    const didIconItemsChange: boolean = iconItems.some((icon, i) => icon.id !== newIconItems[i].id);
+    if (didIconItemsChange) {
+      dispatchUpdateIconItems(newIconItems);
+    }
   };
 
   const onIndicatorClick = (i: number): void => {
