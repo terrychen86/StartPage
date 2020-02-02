@@ -24,13 +24,18 @@ type IconItemArray = Array<IconItem>;
 
 const DroppablePanel = (): React.Node => {
   const styles: Styles = useStyles();
-  const { iconItems } = useSelector(state => state.iconItems);
   const dispatch: Dispatch = useDispatch();
+  const { iconItems: iconItemsInReduxStore } = useSelector(state => state.iconItems);
 
+  const [iconItems, setIconItems] = React.useState<Array<IconItem>>(iconItemsInReduxStore);
   const [panelIdx, setPanelIdx] = React.useState<number>(0);
-
   const [canTriggerPageChange, setCanTriggerPageChange] = React.useState<boolean>(true);
-  const iconSet: Array<IconItemArray> = iconItems.reduce((acc, cur) => {
+
+  React.useEffect(() => {
+    setIconItems(iconItemsInReduxStore);
+  }, [iconItemsInReduxStore]);
+
+  const iconGroups: Array<IconItemArray> = iconItems.reduce((acc, cur) => {
     if (acc.length === 0 || acc[acc.length - 1].length >= 15) {
       acc.push([cur]);
     } else {
@@ -43,7 +48,7 @@ const DroppablePanel = (): React.Node => {
   const [, nextPageRef] = useDrop({
     accept: DraggableItems.ICON,
     hover: (): void => {
-      if (canTriggerPageChange && panelIdx !== iconSet.length - 1) {
+      if (canTriggerPageChange && panelIdx !== iconGroups.length - 1) {
         setPanelIdx(panelIdx + 1);
         setCanTriggerPageChange(false);
         setTimeout(() => {
@@ -73,21 +78,25 @@ const DroppablePanel = (): React.Node => {
     [dispatch],
   );
 
-  const onIconHover = (id: string, targetId: string): void => {
-    const curIconItem: ?IconItem = iconItems.find(n => n.id === id);
-    if (!curIconItem) return;
+  const onIconHover = (hoveredIconId: string, draggedIconId: string): void => {
+    const draggedIcon: ?IconItem = iconItems.find(n => n.id === draggedIconId);
+    if (!draggedIcon) return;
 
-    const targetItem: ?IconItem = iconItems.find(n => n.id === targetId);
-    if (!targetItem) return;
+    const hoveredIcon: ?IconItem = iconItems.find(n => n.id === hoveredIconId);
+    if (!hoveredIcon) return;
 
-    const targetIndex: number = iconItems.indexOf(targetItem);
-    const newIconItems: IconItemArray = iconItems.filter(n => n.id !== id);
-    newIconItems.splice(targetIndex, 0, curIconItem);
+    const hoveredIconIndex: number = iconItems.indexOf(hoveredIcon);
+    const newIconItems: IconItemArray = iconItems.filter(n => n.id !== draggedIconId);
+    newIconItems.splice(hoveredIconIndex, 0, draggedIcon);
 
     const didIconItemsChange: boolean = iconItems.some((icon, i) => icon.id !== newIconItems[i].id);
     if (didIconItemsChange) {
-      dispatchUpdateIconItems(newIconItems);
+      setIconItems(newIconItems);
     }
+  };
+
+  const onIconDrop = (): void => {
+    dispatchUpdateIconItems(iconItems);
   };
 
   const onIndicatorClick = (i: number): void => {
@@ -111,21 +120,21 @@ const DroppablePanel = (): React.Node => {
       <Box ref={prevPageRef} position="absolute" top="0" bottom="0" left="-60px" width="30px" zIndex={3} />
       <Box ref={nextPageRef} position="absolute" top="0" bottom="0" right="-60px" width="30px" zIndex={3} />
       <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
-        <Indicators activeIndex={panelIdx} num={iconSet.length} onClick={onIndicatorClick} />
+        <Indicators activeIndex={panelIdx} num={iconGroups.length} onClick={onIndicatorClick} />
       </Box>
       <Box overflow="hidden" width="100%" height="100%" display="flex">
-        {iconSet.map((set, index) => (
+        {iconGroups.map((iconGroup, index) => (
           <Box key={`${index + 1}`} height="100%" width="100%" flex="1 0 100%">
             <Box
               display="flex"
               width="100%"
               flexWrap="wrap"
               flex="1 1 100%"
-              height={getPanelHeight(set.length)}
+              height={getPanelHeight(iconGroup.length)}
               style={{ transform: `translateX(${panelIdx * -100}%)` }}
               className={styles.transition}
             >
-              {set.map((item, i) => (
+              {iconGroup.map((item, i) => (
                 <Box
                   key={item.id}
                   display="flex"
@@ -133,11 +142,11 @@ const DroppablePanel = (): React.Node => {
                   alignItems="center"
                   flex="0 1 20%"
                   width="20%"
-                  height={getIconHeight(set.length)}
+                  height={getIconHeight(iconGroup.length)}
                   color={grey[50]}
                   spaces={spaces.sm}
                 >
-                  <DraggableIcon index={i} iconItem={item} onIconHover={onIconHover} />
+                  <DraggableIcon index={i} iconItem={item} onIconHover={onIconHover} onIconDrop={onIconDrop} />
                 </Box>
               ))}
             </Box>
