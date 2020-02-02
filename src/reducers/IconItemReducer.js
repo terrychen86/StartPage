@@ -17,7 +17,7 @@ const IconItemReducer = (state: State = ICON_ITEM_DEFAULT_STATE, action: IconIte
   switch (type) {
     case ICON_ITEM_ACTIONS.UPDATE_ICON_ITEMS: {
       return {
-        iconItems,
+        iconItems: [...iconItems],
       };
     }
     default: {

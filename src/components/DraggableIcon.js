@@ -38,7 +38,8 @@ const useStyles = makeStyles({
 type Props = {|
   +index: number,
   +iconItem: IconItem,
-  +onIconHover: (id: string, targetId: string) => void,
+  +onIconHover: (currentIconId: string, draggedIconId: string) => void,
+  +onIconDrop: () => void,
 |};
 
 type MouseState = {|
@@ -46,7 +47,7 @@ type MouseState = {|
   +mouseY: ?number,
 |};
 
-const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
+const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): React.Node => {
   const [mouseState, setMouseState] = React.useState<MouseState>({
     mouseX: null,
     mouseY: null,
@@ -63,10 +64,13 @@ const DraggableIcon = ({ index, iconItem, onIconHover }: Props): React.Node => {
 
   const [, drop] = useDrop({
     accept: DraggableItems.ICON,
-    hover({ id: targetId }) {
-      if (targetId !== id) {
-        onIconHover(id, targetId);
+    hover({ id: draggedIconId }) {
+      if (draggedIconId !== id) {
+        onIconHover(id, draggedIconId);
       }
+    },
+    drop() {
+      onIconDrop();
     },
   });
 
