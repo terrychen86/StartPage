@@ -6,14 +6,21 @@ import { type ThunkAction, type Dispatch } from 'types/Redux';
 
 export const ICON_ITEM_ACTIONS = {
   UPDATE_ICON_ITEMS: 'UPDATE_ICON_ITEMS',
+  UPDATE_EDIT_ICON_ID: 'UPDATE_EDIT_ICON_ID',
 };
 
 export type IconItemAction = {|
   +type: $Keys<typeof ICON_ITEM_ACTIONS>,
-  +iconItems: Array<IconItem>,
+  +iconItems?: Array<IconItem>,
+  +editId?: string,
 |};
 
-const receiveIconItems = (iconItems: Array<IconItem>): IconItemAction => ({
+export const setEditIconId = (editId: string): IconItemAction => ({
+  type: ICON_ITEM_ACTIONS.UPDATE_EDIT_ICON_ID,
+  editId,
+});
+
+export const receiveIconItems = (iconItems: Array<IconItem>): IconItemAction => ({
   type: ICON_ITEM_ACTIONS.UPDATE_ICON_ITEMS,
   iconItems,
 });

@@ -11,7 +11,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Build from '@material-ui/icons/Build';
-import { MODALS, MODAL_ACTIONS, type ModalActionType } from 'actions/ModalActions';
+import { MODALS, MODAL_ACTIONS, type ModalAction } from 'actions/ModalActions';
 
 import { makeStyles, type Styles } from 'utils/styles';
 
@@ -58,7 +58,7 @@ const IconSpeedDial = (): React.Node => {
   const dispatch = useDispatch();
 
   const openAddIconModal = React.useCallback((): void => {
-    const action: ModalActionType = { type: MODAL_ACTIONS.OPEN_MODAL, modal: MODALS.ADD_ICON };
+    const action: ModalAction = { type: MODAL_ACTIONS.OPEN_MODAL, modal: MODALS.ADD_ICON };
     dispatch(action);
   }, [dispatch]);
 
