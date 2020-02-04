@@ -15,7 +15,7 @@ import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
 import PopularIconPanel from 'components/AddIconModal/PopularIconPanel';
 import spaces from 'utils/spaces';
 import type { IconItem } from 'types/IconItem';
-import { MODALS, MODAL_ACTIONS, type ModalActionType } from 'actions/ModalActions';
+import { MODALS, MODAL_ACTIONS, type ModalAction } from 'actions/ModalActions';
 
 const AddIconModal = (): React.Node => {
   const [tabIndex, setTabIndex] = React.useState<number>(0);
@@ -33,7 +33,7 @@ const AddIconModal = (): React.Node => {
   const modalSize: string = tabIndex === 0 ? 'sm' : 'md';
 
   const handleModalClose = React.useCallback((): void => {
-    const action: ModalActionType = { type: MODAL_ACTIONS.OPEN_MODAL, modal: null };
+    const action: ModalAction = { type: MODAL_ACTIONS.OPEN_MODAL, modal: null };
     dispatch(action);
   }, [dispatch]);
 

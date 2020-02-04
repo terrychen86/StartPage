@@ -1,13 +1,17 @@
 // @flow
 
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { useDrag, useDrop } from 'react-dnd';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
-import { useDrag, useDrop } from 'react-dnd';
 
 import DraggableItems from 'components/DraggableItems';
 import Icon from 'components/Icon';
+import { openModal, MODALS } from 'actions/ModalActions';
+import { setEditIconId } from 'actions/IconItemActions';
+import type { Dispatch } from 'types/Redux';
 import type { IconItem } from 'types/IconItem';
 import { css, makeStyles, type Styles } from 'utils/styles';
 
@@ -48,12 +52,13 @@ type MouseState = {|
 |};
 
 const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): React.Node => {
+  const styles: Styles = useStyles();
+  const dispatch: Dispatch = useDispatch();
   const [mouseState, setMouseState] = React.useState<MouseState>({
     mouseX: null,
     mouseY: null,
   });
 
-  const styles: Styles = useStyles();
   const { id, name, iconSrc, url } = iconItem;
   const [{ isDragging }, drag] = useDrag({
     item: { type: DraggableItems.ICON, id, index },
@@ -86,6 +91,13 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
     setMouseState({ mouseX: null, mouseY: null });
   };
 
+  const handleEditIcon = React.useCallback((): void => {
+    handleContextMenuClose();
+    console.log(id);
+    dispatch(setEditIconId(id));
+    dispatch(openModal(MODALS.EDIT_ICON));
+  }, [dispatch, id]);
+
   return (
     <Box component="a" href={url}>
       <Box
@@ -106,7 +118,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
           }
         >
           <MenuItem onClick={handleContextMenuClose}>Open in new tab</MenuItem>
-          <MenuItem onClick={handleContextMenuClose}>Edit</MenuItem>
+          <MenuItem onClick={handleEditIcon}>Edit</MenuItem>
           <MenuItem onClick={handleContextMenuClose}>Delete</MenuItem>
           <MenuItem onClick={handleContextMenuClose}>Cancel</MenuItem>
         </Menu>
