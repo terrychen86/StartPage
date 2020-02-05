@@ -10,14 +10,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Icon from 'components/Icon';
 import spaces from 'utils/spaces';
-import { closeModal, MODALS } from 'actions/ModalActions';
+import { closeModal } from 'actions/ModalActions';
 import { updateIconItems, setEditIconId } from 'actions/IconItemActions';
 
 import type { IconItem } from 'types/IconItem';
 import type { Dispatch, ReduxState } from 'types/Redux';
 
-const EditIconModal = (): React.Node => {
-  const { modal } = useSelector((state: ReduxState) => state.modals);
+type Props = {|
+  +isOpen: boolean,
+|};
+
+const EditIconModal = ({ isOpen }: Props): React.Node => {
   const { iconItems, editId } = useSelector((state: ReduxState) => state.iconItems);
   const dispatch: Dispatch = useDispatch();
 
@@ -40,14 +43,6 @@ const EditIconModal = (): React.Node => {
     setIconItem(targetIconItem);
   }, [iconItems, editId]);
 
-  const dispatchUpdateIconItems = React.useCallback(
-    (updatedIconItems: Array<IconItem>) => {
-      dispatch(updateIconItems(updatedIconItems));
-    },
-    [dispatch],
-  );
-
-  const shouldOpenModal: boolean = modal === MODALS.EDIT_ICON;
   const { id, name, url, iconSrc } = iconItem;
   const isBuiltInIcon: boolean = id.startsWith('default');
 
@@ -95,7 +90,7 @@ const EditIconModal = (): React.Node => {
   );
 
   return (
-    <Dialog maxWidth="sm" fullWidth open={shouldOpenModal} onClose={handleModalClose} disableScrollLock>
+    <Dialog maxWidth="sm" fullWidth open={isOpen} onClose={handleModalClose} disableScrollLock>
       <DialogContent>
         <Box display="flex" p={spaces.sm}>
           <Box flex="0 0 auto" textAlign="center" pt={spaces.md}>
