@@ -1,8 +1,8 @@
-// @flow
+// @flow strict
 
 import * as React from 'react';
 import nanoid from 'nanoid';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
@@ -14,10 +14,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
 import PopularIconPanel from 'components/AddIconModal/PopularIconPanel';
 import spaces from 'utils/spaces';
+import { closeModal } from 'actions/ModalActions';
 import type { IconItem } from 'types/IconItem';
-import { MODALS, MODAL_ACTIONS, type ModalAction } from 'actions/ModalActions';
 
-const AddIconModal = (): React.Node => {
+type Props = {|
+  isOpen: boolean,
+|};
+
+const AddIconModal = ({ isOpen }: Props): React.Node => {
   const [tabIndex, setTabIndex] = React.useState<number>(0);
   const [iconItem, setIconItem] = React.useState<IconItem>({
     id: nanoid(),
@@ -26,15 +30,11 @@ const AddIconModal = (): React.Node => {
     iconSrc: '',
   });
 
-  const { modal } = useSelector(state => state.modals);
   const dispatch = useDispatch();
-
-  const shouldOpenModal: boolean = modal === MODALS.ADD_ICON;
   const modalSize: string = tabIndex === 0 ? 'sm' : 'md';
 
   const handleModalClose = React.useCallback((): void => {
-    const action: ModalAction = { type: MODAL_ACTIONS.OPEN_MODAL, modal: null };
-    dispatch(action);
+    dispatch(closeModal());
   }, [dispatch]);
 
   const handleTabClick = (_event: SyntheticEvent<Event>, value: number): void => {
@@ -46,7 +46,7 @@ const AddIconModal = (): React.Node => {
   };
 
   return (
-    <Dialog maxWidth={modalSize} fullWidth open={shouldOpenModal} onClose={handleModalClose} disableScrollLock>
+    <Dialog maxWidth={modalSize} fullWidth open={isOpen} onClose={handleModalClose} disableScrollLock>
       <Box p={spaces.md}>
         <Box>
           <Tabs value={tabIndex} onChange={handleTabClick} indicatorColor="primary" textColor="primary" centered>
