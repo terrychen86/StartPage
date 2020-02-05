@@ -40,13 +40,6 @@ const EditIconModal = (): React.Node => {
     setIconItem(targetIconItem);
   }, [iconItems, editId]);
 
-  const dispatchUpdateIconItems = React.useCallback(
-    (updatedIconItems: Array<IconItem>) => {
-      dispatch(updateIconItems(updatedIconItems));
-    },
-    [dispatch],
-  );
-
   const shouldOpenModal: boolean = modal === MODALS.EDIT_ICON;
   const { id, name, url, iconSrc } = iconItem;
   const isBuiltInIcon: boolean = id.startsWith('default');
