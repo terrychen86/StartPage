@@ -11,6 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Icon from 'components/Icon';
 import spaces from 'utils/spaces';
 import { closeModal } from 'actions/ModalActions';
+import { showMessage } from 'actions/MessageActions';
 import { updateIconItems, setEditIconId } from 'actions/IconItemActions';
 
 import type { IconItem } from 'types/IconItem';
@@ -21,8 +22,10 @@ type Props = {|
 |};
 
 const EditIconModal = ({ isOpen }: Props): React.Node => {
-  const { iconItems, editId } = useSelector((state: ReduxState) => state.iconItems);
-  const dispatch: Dispatch = useDispatch();
+  const { iconItems, editId } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(
+    state => state.iconItems,
+  );
+  const dispatch = useDispatch<Dispatch>();
 
   const [iconItem, setIconItem] = React.useState<IconItem>({
     id: '',
@@ -76,14 +79,15 @@ const EditIconModal = ({ isOpen }: Props): React.Node => {
   }, [dispatch]);
 
   const handleConfirmButtonClick = React.useCallback(
-    (_e: SyntheticEvent<HTMLButtonElement>): void => {
+    async (_e: SyntheticEvent<HTMLButtonElement>) => {
       const newIconItems: Array<IconItem> = iconItems.map(icon => {
         if (icon.id !== editId) {
           return { ...icon };
         }
         return { ...iconItem };
       });
-      dispatch(updateIconItems(newIconItems));
+      await dispatch(updateIconItems(newIconItems));
+      dispatch(showMessage('success', 'Icon updated!'));
       dispatch(closeModal());
     },
     [dispatch, editId, iconItems, iconItem],

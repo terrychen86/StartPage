@@ -53,7 +53,7 @@ type MouseState = {|
 
 const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): React.Node => {
   const styles: Styles = useStyles();
-  const dispatch: Dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch>();
   const [mouseState, setMouseState] = React.useState<MouseState>({
     mouseX: null,
     mouseY: null,
@@ -79,7 +79,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
     },
   });
 
-  const handleRightClick = (event): void => {
+  const handleRightClick = (event: SyntheticMouseEvent<HTMLElement>): void => {
     event.preventDefault();
     setMouseState({
       mouseX: event.clientX - 2,
@@ -93,7 +93,6 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
 
   const handleEditIcon = React.useCallback((): void => {
     handleContextMenuClose();
-    console.log(id);
     dispatch(setEditIconId(id));
     dispatch(openModal(MODALS.EDIT_ICON));
   }, [dispatch, id]);
