@@ -1,6 +1,8 @@
-// @flow
+// @flow strict
 
 import * as React from 'react';
+import { useSnackbar } from 'notistack';
+import { useSelector, useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -9,9 +11,14 @@ import Icon from 'components/Icon';
 import spaces from 'utils/spaces';
 import iconData from 'data/iconData';
 
+import { updateIconItems } from 'actions/IconItemActions';
+import type { ReduxState, Dispatch } from 'types/Redux';
 import type { IconItem } from 'types/IconItem';
 
 const CreateIconPanel = (): React.Node => {
+  const dispatch = useDispatch<Dispatch>();
+  const { iconItems } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(state => state.iconItems);
+  const { enqueueSnackbar } = useSnackbar();
   const [searchQuery, setSearchQuery] = React.useState<string>('');
   const [filteredIcons, setFilteredIcons] = React.useState<Array<IconItem>>(iconData);
 
@@ -21,6 +28,25 @@ const CreateIconPanel = (): React.Node => {
     setFilteredIcons(iconData.filter(icon => icon.name.toLowerCase().includes(value.toLowerCase())));
   };
 
+  const handleIconClick = React.useCallback(
+    (e: SyntheticEvent<HTMLDivElement>): void => {
+      const { id } = e.currentTarget.dataset;
+      const isExisting: boolean = iconItems.some(n => n.id === id);
+      if (isExisting) {
+        enqueueSnackbar('Icon has already existed', { variant: 'warning' });
+        return;
+      }
+
+      const iconItem: ?IconItem = iconData.find(n => n.id === id);
+      if (iconItem) {
+        const newIconItems: Array<IconItem> = [...iconItems, iconItem];
+        dispatch(updateIconItems(newIconItems)).then(() => {
+          enqueueSnackbar('Icon added', { variant: 'success' });
+        });
+      }
+    },
+    [dispatch, enqueueSnackbar, iconItems],
+  );
   return (
     <Box minHeight="576px">
       <Box textAlign="right" pb={spaces.xs} pr={spaces.xl}>
@@ -48,6 +74,7 @@ const CreateIconPanel = (): React.Node => {
             height="175px"
             display="flex"
             justifyContent="center"
+            onClick={handleIconClick}
           >
             <Icon name={icon.name} src={icon.iconSrc} />
           </Box>

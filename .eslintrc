@@ -15,7 +15,8 @@
     "plugin:react/recommended",
     "plugin:jsx-a11y/strict",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/react",
+    "prettier/flowtype"
   ],
   "plugins": [
     "react",
@@ -33,7 +34,7 @@
     ],
     "no-console": "off",
     "react/prop-types": 0,
-    "prettier/prettier": ["warn"],
+    "prettier/prettier": ["warn", {"singleQuote": true, "trailingComma": "all", "printWidth": 120, "parser": "flow"}],
     "no-unused-vars": [
       "error",
       {

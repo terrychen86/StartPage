@@ -10,6 +10,7 @@
     "lodash": "^4.17.15",
     "nanoid": "^2.1.9",
     "node-sass": "^4.13.0",
+    "notistack": "^0.9.7",
     "react": "^16.10.2",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",

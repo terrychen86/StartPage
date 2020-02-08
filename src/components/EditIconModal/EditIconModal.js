@@ -8,10 +8,10 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import { useSnackbar } from 'notistack';
 import Icon from 'components/Icon';
 import spaces from 'utils/spaces';
 import { closeModal } from 'actions/ModalActions';
-import { showMessage } from 'actions/MessageActions';
 import { updateIconItems, setEditIconId } from 'actions/IconItemActions';
 
 import type { IconItem } from 'types/IconItem';
@@ -26,6 +26,7 @@ const EditIconModal = ({ isOpen }: Props): React.Node => {
     state => state.iconItems,
   );
   const dispatch = useDispatch<Dispatch>();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [iconItem, setIconItem] = React.useState<IconItem>({
     id: '',
@@ -79,18 +80,19 @@ const EditIconModal = ({ isOpen }: Props): React.Node => {
   }, [dispatch]);
 
   const handleConfirmButtonClick = React.useCallback(
-    async (_e: SyntheticEvent<HTMLButtonElement>) => {
+    (_e: SyntheticEvent<HTMLButtonElement>): void => {
       const newIconItems: Array<IconItem> = iconItems.map(icon => {
         if (icon.id !== editId) {
           return { ...icon };
         }
         return { ...iconItem };
       });
-      await dispatch(updateIconItems(newIconItems));
-      dispatch(showMessage('success', 'Icon updated!'));
       dispatch(closeModal());
+      dispatch(updateIconItems(newIconItems)).then(() => {
+        enqueueSnackbar('Icon updated', { variant: 'success' });
+      });
     },
-    [dispatch, editId, iconItems, iconItem],
+    [dispatch, enqueueSnackbar, editId, iconItems, iconItem],
   );
 
   return (

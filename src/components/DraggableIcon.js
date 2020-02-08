@@ -1,7 +1,8 @@
 // @flow
 
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { useDrag, useDrop } from 'react-dnd';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,10 +11,10 @@ import Box from '@material-ui/core/Box';
 import DraggableItems from 'components/DraggableItems';
 import Icon from 'components/Icon';
 import { openModal, MODALS } from 'actions/ModalActions';
-import { setEditIconId } from 'actions/IconItemActions';
-import type { Dispatch } from 'types/Redux';
-import type { IconItem } from 'types/IconItem';
+import { updateIconItems, setEditIconId } from 'actions/IconItemActions';
 import { css, makeStyles, type Styles } from 'utils/styles';
+import type { Dispatch, ReduxState } from 'types/Redux';
+import type { IconItem } from 'types/IconItem';
 
 const useStyles = makeStyles({
   '@keyframes icon-shaking': {
@@ -54,6 +55,8 @@ type MouseState = {|
 const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): React.Node => {
   const styles: Styles = useStyles();
   const dispatch = useDispatch<Dispatch>();
+  const { enqueueSnackbar } = useSnackbar();
+  const { iconItems } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(state => state.iconItems);
   const [mouseState, setMouseState] = React.useState<MouseState>({
     mouseX: null,
     mouseY: null,
@@ -97,6 +100,14 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
     dispatch(openModal(MODALS.EDIT_ICON));
   }, [dispatch, id]);
 
+  const handleDeleteIcon = React.useCallback((): void => {
+    handleContextMenuClose();
+    const newIconItems: Array<IconItem> = iconItems.filter(n => n.id !== id);
+    dispatch(updateIconItems(newIconItems)).then(() => {
+      enqueueSnackbar('Icon deleted', { variant: 'info' });
+    });
+  }, [dispatch, enqueueSnackbar, iconItems, id]);
+
   return (
     <Box component="a" href={url}>
       <Box
@@ -118,7 +129,7 @@ const DraggableIcon = ({ index, iconItem, onIconHover, onIconDrop }: Props): Rea
         >
           <MenuItem onClick={handleContextMenuClose}>Open in new tab</MenuItem>
           <MenuItem onClick={handleEditIcon}>Edit</MenuItem>
-          <MenuItem onClick={handleContextMenuClose}>Delete</MenuItem>
+          <MenuItem onClick={handleDeleteIcon}>Delete</MenuItem>
           <MenuItem onClick={handleContextMenuClose}>Cancel</MenuItem>
         </Menu>
       </Box>

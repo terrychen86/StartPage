@@ -42,8 +42,8 @@ export const requestIconItems = (): ThunkAction => async (dispatch: Dispatch) =>
 
 export const updateIconItems = (iconItems: Array<IconItem>): ThunkAction => async (dispatch: Dispatch) => {
   try {
-    await chromeStorage.set({ iconItems: JSON.stringify(iconItems) });
     dispatch(receiveIconItems(iconItems));
+    await chromeStorage.set({ iconItems: JSON.stringify(iconItems) });
   } catch (err) {
     throw new Error(err);
   }
