@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import nanoid from 'nanoid';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
@@ -14,7 +15,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
 import PopularIconPanel from 'components/AddIconModal/PopularIconPanel';
 import spaces from 'utils/spaces';
+import { updateIconItems } from 'actions/IconItemActions';
 import { closeModal } from 'actions/ModalActions';
+import type { ReduxState, Dispatch } from 'types/Redux';
 import type { IconItem } from 'types/IconItem';
 
 type Props = {|
@@ -22,6 +25,7 @@ type Props = {|
 |};
 
 const AddIconModal = ({ isOpen }: Props): React.Node => {
+  const { iconItems } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(state => state.iconItems);
   const [tabIndex, setTabIndex] = React.useState<number>(0);
   const [iconItem, setIconItem] = React.useState<IconItem>({
     id: nanoid(),
@@ -30,7 +34,8 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
     iconSrc: '',
   });
 
-  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch<Dispatch>();
   const modalSize: string = tabIndex === 0 ? 'sm' : 'md';
 
   const handleModalClose = React.useCallback((): void => {
@@ -44,6 +49,14 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
   const handleIconItemChange = (updatedIconItem: IconItem): void => {
     setIconItem(updatedIconItem);
   };
+
+  const handleConfirmButtonClick = React.useCallback((): void => {
+    const newIconItems: Array<IconItem> = [...iconItems, iconItem];
+    dispatch(updateIconItems(newIconItems)).then(() => {
+      dispatch(closeModal());
+      enqueueSnackbar('Icon added', { variant: 'success' });
+    });
+  }, [dispatch, enqueueSnackbar, iconItems, iconItem]);
 
   return (
     <Dialog maxWidth={modalSize} fullWidth open={isOpen} onClose={handleModalClose} disableScrollLock>
@@ -63,7 +76,7 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
         {tabIndex === 0 && (
           <DialogActions>
             <Box pr={spaces.md} pb={spaces.xs}>
-              <Button onClick={handleModalClose} color="primary">
+              <Button onClick={handleConfirmButtonClick} color="primary">
                 Create
               </Button>
               <Button onClick={handleModalClose} color="default">

@@ -27,7 +27,7 @@ const Icon = (props: Props): React.Node => {
         borderRadius="20px"
         boxShadow="2px 2px 6px 2px rgba(0,0,0,0.1)"
       >
-        <Box p={spaces.sm}>
+        <Box p={spaces.sm} display="flex" alignItems="center" height="100%">
           <Box component="img" width="100%" src={resolveIconSrc(src || 'built-in-defaultIcon')} alt={name} />
         </Box>
       </Box>
