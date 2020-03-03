@@ -1,5 +1,5 @@
 // @flow
-import { chromeStorage } from 'utils/chrome';
+import { dataStore } from 'utils/dataStore';
 import { initIconItems } from 'data/iconData';
 import type { IconItem } from 'types/IconItem';
 import { type ThunkAction, type Dispatch } from 'types/Redux';
@@ -27,7 +27,7 @@ export const receiveIconItems = (iconItems: Array<IconItem>): IconItemAction => 
 
 export const requestIconItems = (): ThunkAction => async (dispatch: Dispatch) => {
   try {
-    const res: { [string]: string } = await chromeStorage.get('iconItems');
+    const res: { [string]: string } = await dataStore.get('iconItems');
     const { iconItems } = res;
     if (!iconItems) {
       dispatch(receiveIconItems(initIconItems));
@@ -43,7 +43,7 @@ export const requestIconItems = (): ThunkAction => async (dispatch: Dispatch) =>
 export const updateIconItems = (iconItems: Array<IconItem>): ThunkAction => async (dispatch: Dispatch) => {
   try {
     dispatch(receiveIconItems(iconItems));
-    await chromeStorage.set({ iconItems: JSON.stringify(iconItems) });
+    await dataStore.set({ iconItems: JSON.stringify(iconItems) });
   } catch (err) {
     throw new Error(err);
   }

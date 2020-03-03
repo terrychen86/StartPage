@@ -21,7 +21,7 @@ type Props = {|
   +isOpen: boolean,
 |};
 
-const EditIconModal = ({ isOpen }: Props): React.Node => {
+const EditWebsiteModal = ({ isOpen }: Props): React.Node => {
   const { iconItems, editId } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(
     state => state.iconItems,
   );
@@ -89,7 +89,7 @@ const EditIconModal = ({ isOpen }: Props): React.Node => {
       });
       dispatch(closeModal());
       dispatch(updateIconItems(newIconItems)).then(() => {
-        enqueueSnackbar('Icon updated', { variant: 'success' });
+        enqueueSnackbar('Website updated', { variant: 'success' });
       });
     },
     [dispatch, enqueueSnackbar, editId, iconItems, iconItem],
@@ -138,4 +138,4 @@ const EditIconModal = ({ isOpen }: Props): React.Node => {
   );
 };
 
-export default EditIconModal;
+export default EditWebsiteModal;
