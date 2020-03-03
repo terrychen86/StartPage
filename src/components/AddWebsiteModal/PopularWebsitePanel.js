@@ -33,7 +33,7 @@ const CreateIconPanel = (): React.Node => {
       const { id } = e.currentTarget.dataset;
       const isExisting: boolean = iconItems.some(n => n.id === id);
       if (isExisting) {
-        enqueueSnackbar('Icon has already existed', { variant: 'warning' });
+        enqueueSnackbar('The website has already existed', { variant: 'warning' });
         return;
       }
 
@@ -41,7 +41,7 @@ const CreateIconPanel = (): React.Node => {
       if (iconItem) {
         const newIconItems: Array<IconItem> = [...iconItems, iconItem];
         dispatch(updateIconItems(newIconItems)).then(() => {
-          enqueueSnackbar('Icon added', { variant: 'success' });
+          enqueueSnackbar('Website added', { variant: 'success' });
         });
       }
     },

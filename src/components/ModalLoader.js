@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { MODALS } from 'actions/ModalActions';
-import AddIconModal from 'components/AddIconModal/AddIconModal';
-import EditIconModal from 'components/EditIconModal/EditIconModal';
+import AddWebsiteModal from 'components/AddWebsiteModal/AddWebsiteModal';
+import EditWebsiteModal from 'components/EditWebsiteModal/EditWebsiteModal';
 
 import type { ReduxState } from 'types/Redux';
 
@@ -13,8 +13,8 @@ const ModalLoader = (): React.Node => {
 
   return (
     <>
-      <AddIconModal isOpen={modal === MODALS.ADD_ICON} />
-      <EditIconModal isOpen={modal === MODALS.EDIT_ICON} />
+      <AddWebsiteModal isOpen={modal === MODALS.ADD_ICON} />
+      <EditWebsiteModal isOpen={modal === MODALS.EDIT_ICON} />
     </>
   );
 };

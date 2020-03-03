@@ -12,8 +12,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
-import CreateIconPanel from 'components/AddIconModal/CreateIconPanel';
-import PopularIconPanel from 'components/AddIconModal/PopularIconPanel';
+import CreateWebsitePanel from 'components/AddWebsiteModal/CreateWebsitePanel';
+import PopularWebsitePanel from 'components/AddWebsiteModal/PopularWebsitePanel';
 import spaces from 'utils/spaces';
 import { updateIconItems } from 'actions/IconItemActions';
 import { closeModal } from 'actions/ModalActions';
@@ -24,7 +24,7 @@ type Props = {|
   isOpen: boolean,
 |};
 
-const AddIconModal = ({ isOpen }: Props): React.Node => {
+const AddWebsiteModal = ({ isOpen }: Props): React.Node => {
   const { iconItems } = useSelector<ReduxState, $ElementType<ReduxState, 'iconItems'>>(state => state.iconItems);
   const [tabIndex, setTabIndex] = React.useState<number>(0);
   const [iconItem, setIconItem] = React.useState<IconItem>({
@@ -54,7 +54,7 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
     const newIconItems: Array<IconItem> = [...iconItems, iconItem];
     dispatch(updateIconItems(newIconItems)).then(() => {
       dispatch(closeModal());
-      enqueueSnackbar('Icon added', { variant: 'success' });
+      enqueueSnackbar('Website added', { variant: 'success' });
     });
   }, [dispatch, enqueueSnackbar, iconItems, iconItem]);
 
@@ -63,14 +63,14 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
       <Box p={spaces.md}>
         <Box>
           <Tabs value={tabIndex} onChange={handleTabClick} indicatorColor="primary" textColor="primary" centered>
-            <Tab label="Create an icon" />
-            <Tab label="Add popular icons" />
+            <Tab label="Add a new website" />
+            <Tab label="Add popular websites" />
           </Tabs>
         </Box>
 
         <DialogContent>
-          {tabIndex === 0 && <CreateIconPanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />}
-          {tabIndex === 1 && <PopularIconPanel />}
+          {tabIndex === 0 && <CreateWebsitePanel iconItem={iconItem} onIconItemChange={handleIconItemChange} />}
+          {tabIndex === 1 && <PopularWebsitePanel />}
         </DialogContent>
 
         {tabIndex === 0 && (
@@ -90,4 +90,4 @@ const AddIconModal = ({ isOpen }: Props): React.Node => {
   );
 };
 
-export default AddIconModal;
+export default AddWebsiteModal;

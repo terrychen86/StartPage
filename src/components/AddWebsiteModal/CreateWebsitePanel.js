@@ -12,7 +12,7 @@ type Props = {|
   onIconItemChange: IconItem => void,
 |};
 
-const CreateIconPanel = (props: Props): React.Node => {
+const CreateWebsitePanel = (props: Props): React.Node => {
   const { iconItem, onIconItemChange } = props;
   const { name, url, iconSrc } = iconItem;
   const handleNameChange = (e: SyntheticEvent<HTMLInputElement>): void => {
@@ -31,7 +31,7 @@ const CreateIconPanel = (props: Props): React.Node => {
     });
   };
 
-  const handleiconSrcChange = (e: SyntheticEvent<HTMLInputElement>): void => {
+  const handleIconSrcChange = (e: SyntheticEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
     onIconItemChange({
       ...iconItem,
@@ -53,7 +53,7 @@ const CreateIconPanel = (props: Props): React.Node => {
             <TextField label="Url" size="small" fullWidth value={url} onChange={handleUrlChange} />
           </Box>
           <Box my={spaces.xxs}>
-            <TextField label="Icon" size="small" fullWidth value={iconSrc} onChange={handleiconSrcChange} />
+            <TextField label="Icon" size="small" fullWidth value={iconSrc} onChange={handleIconSrcChange} />
           </Box>
         </Box>
       </Box>
@@ -61,4 +61,4 @@ const CreateIconPanel = (props: Props): React.Node => {
   );
 };
 
-export default CreateIconPanel;
+export default CreateWebsitePanel;

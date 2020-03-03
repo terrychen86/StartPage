@@ -119,9 +119,12 @@ const DroppablePanel = (): React.Node => {
     <Box ref={drop} height="100%" position="relative">
       <Box ref={prevPageRef} position="absolute" top="0" bottom="0" left="-60px" width="30px" zIndex={3} />
       <Box ref={nextPageRef} position="absolute" top="0" bottom="0" right="-60px" width="30px" zIndex={3} />
-      <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
-        <Indicators activeIndex={panelIdx} num={iconGroups.length} onClick={onIndicatorClick} />
-      </Box>
+      {iconGroups.length !== 0 && (
+        <Box position="absolute" left="0" right="0" bottom="-50px" display="flex" justifyContent="center">
+          <Indicators activeIndex={panelIdx} num={iconGroups.length} onClick={onIndicatorClick} />
+        </Box>
+      )}
+
       <Box overflow="hidden" width="100%" height="100%" display="flex">
         {iconGroups.map((iconGroup, index) => (
           <Box key={`${index + 1}`} height="100%" width="100%" flex="1 0 100%">
